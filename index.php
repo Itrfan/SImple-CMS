@@ -1,9 +1,12 @@
 <?php 
   session_start();
   require "includes/function.php";
+  
+
 
 
   $path = $_SERVER["REQUEST_URI"];
+  $path = parse_url( $path, PHP_URL_PATH );
 
   switch ($path) {
     case '/login':
@@ -51,6 +54,32 @@
       require "includes/auth/do_signup.php";
       break;
 
+    case '/add':
+      require "includes/users/add.php";
+      break;
+    
+    case '/delete':
+      require "includes/users/delete.php";
+      break;
+    case '/update':
+      require "includes/users/update.php";
+      break;
+    case '/change':
+      require "includes/users/changepwd.php";
+      break;
+
+    case '/addpost':
+      require "includes/posts/addpost.php";
+      break;
+
+    case '/deletepost':
+      require "includes/posts/deletepost.php";
+      break;
+
+    case '/updatepost':
+      require "includes/posts/updatepost.php";
+      break;
+      
     default:
       require "pages/home.php";
       break;

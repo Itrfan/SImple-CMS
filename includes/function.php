@@ -16,3 +16,43 @@ $database_password);
 
 return $database;
 };
+
+
+function getUserByEmail( $email ) {
+    $database = connecttoDB();
+
+    $sql = "SELECT * FROM users WHERE email = :email";
+
+    $query = $database->prepare( $sql );
+
+    $query->execute([
+        "email" => $email,
+    ]);
+    $user = $query->fetch();
+
+    return $user;
+}
+
+function IsUserLoggedIn(){
+    return isset( $_SESSION["user"]);
+}
+
+
+function isAdmin() {
+    // check if user session is set or not
+    if ( isset( $_SESSION["user"] ) ) {
+        // check if user is an admin
+        if ( $_SESSION["user"]['role'] === 'admin' ) {
+            return true;
+        } 
+    } 
+    return false;
+}
+
+/* 
+    check if current user is an editor or admin
+*/
+function isEditor() {
+    return isset( $_SESSION["user"] ) && ( $_SESSION["user"]['role'] === 'admin' || $_SESSION["user"]['role'] === 'editor' ) ? true : false;
+}
+

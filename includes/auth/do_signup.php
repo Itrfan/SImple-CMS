@@ -16,9 +16,13 @@
         empty( $password ) || 
         empty( $confirm_password ) 
     ) {
-        echo "All the fields are required";
+        $_SESSION["error"] = "All fields are required";
+        header("Location: /signup");
+        exit;
     } else if ( $password !== $confirm_password ) {
-        echo "Your password is not match";
+        $_SESSION["error"] = "The password is not the same";
+        header("Location:/signup");
+        exit;
     } else {
         // 5. create a user account
         // 5.1 SQL command
@@ -31,6 +35,8 @@
             "email" => $email,
             "password" => password_hash( $password, PASSWORD_DEFAULT )
         ]);
+
+        $_SESSION["success"] = "Account created succesfully. Please login to your newly created account.";
 
         // 6. redirect to login.php
         header("Location: /login");
